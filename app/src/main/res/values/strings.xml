@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DrawingGameProject</string>
+    <string name="main_activity_textview">DebugMenu</string>
+    <string name="debugitem1">Drawing</string>
+</resources>
