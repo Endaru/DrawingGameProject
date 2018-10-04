@@ -26,9 +26,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Context context = MainActivity.this;
-                Class drawingActivity = DrawingActivity.class;
-                Intent startDrawing = new Intent(context,drawingActivity);
-                startActivity(startDrawing);
+                Class gameActivity = GameActivity.class;
+                Intent startGaming = new Intent(context,gameActivity);
+                startActivity(startGaming);
+            }
+        });
+
+        mDebugButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = MainActivity.this;
+                Class gameActivity = GameActivity.class;
+                Intent startGaming = new Intent(context,gameActivity);
+                startActivity(startGaming);
             }
         });
     }

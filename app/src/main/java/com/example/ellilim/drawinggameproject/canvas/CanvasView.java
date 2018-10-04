@@ -6,10 +6,18 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.RectF;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CanvasView extends View {
 
@@ -23,6 +31,7 @@ public class CanvasView extends View {
     private float mX;
     private float mY;
     private static final float TOLERANCE = 5;
+    ArrayList<Point> mPoints = new ArrayList<>();
 
     public CanvasView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -35,7 +44,7 @@ public class CanvasView extends View {
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeWidth(10f);
+        mPaint.setStrokeWidth(20f);
     }
 
     @Override
@@ -52,6 +61,8 @@ public class CanvasView extends View {
     }
 
     private void startTouch(float x, float y){
+        mPoints.add(new Point((int)x,(int)y));
+        mPath.reset();
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
@@ -60,6 +71,8 @@ public class CanvasView extends View {
     private void moveTouch(float x, float y){
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
+        mPoints.add(new Point((int)x,(int)y));
+
         if(dx >= TOLERANCE || dy >= TOLERANCE) {
             mPath.quadTo(mX,mY,(x + mX) / 2, (y + mY) / 2);
             mX = x;
