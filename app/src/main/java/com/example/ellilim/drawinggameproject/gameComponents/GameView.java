@@ -19,6 +19,8 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 import com.example.ellilim.drawinggameproject.R;
+import com.example.ellilim.drawinggameproject.monsterComponents.MonsterClass;
+import com.example.ellilim.drawinggameproject.monsterComponents.monsters.TestMonster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +29,16 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean mRunning;
     private Thread mGameThread = null;
-    private Path mPath;
+    private CaptureLine mCaptureLine;
+    private MonsterClass mTestMonster;
 
     private Context mContext;
     private Paint mPaint;
+    private Paint monsterPaint;
     private Bitmap mBitmap;
     private int mBitmapX,mBitmapY,mViewWidth,mViewHeight;
     private SurfaceHolder mSurfaceHolder;
     private float mX,mY;
-    private ArrayList<Point> mPoints = new ArrayList<>();
     private static final float TOLERANCE = 5;
 
     public GameView(Context context) {
@@ -46,12 +49,22 @@ public class GameView extends SurfaceView implements Runnable {
         super(context, attrs);
         mContext = context;
         mSurfaceHolder = getHolder();
+
         mPaint = new Paint();
         mPaint.setColor(Color.DKGRAY);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeWidth(20f);
-        mPath = new Path();
+
+        monsterPaint = new Paint();
+        monsterPaint.setColor(Color.RED);
+        monsterPaint.setStyle(Paint.Style.STROKE);
+        monsterPaint.setStrokeJoin(Paint.Join.ROUND);
+        monsterPaint.setStrokeWidth(20f);
+
+        mCaptureLine = new CaptureLine();
+
+        mTestMonster = new TestMonster("test",1,0,300,300);
     }
 
     @Override
@@ -74,17 +87,22 @@ public class GameView extends SurfaceView implements Runnable {
                 // more threads, you need to put this into a try/catch block
                 // to make sure only one thread is drawing to the surface.
                 // Starting with O, you can request a hardware surface with
-                //    lockHardwareCanvas().
+                // lockHardwareCanvas().
                 // See https://developer.android.com/reference/android/view/
-                //    SurfaceHolder.html#lockHardwareCanvas()
+                // SurfaceHolder.html#lockHardwareCanvas()
                 canvas = mSurfaceHolder.lockCanvas();
                 // Fill the canvas with white and draw the bitmap.
                 if(canvas != null) {
+                    canvas.clipPath(mTestMonster,Region.Op.DIFFERENCE);
                     canvas.drawColor(Color.WHITE);
 
-                    if (mPath != null) {
+                    if (mCaptureLine != null) {
 
-                        canvas.drawPath(mPath, mPaint);
+                        canvas.drawPath(mCaptureLine, mPaint);
+                    }
+
+                    if (mTestMonster != null){
+                        canvas.drawRect(300, 300, 300, 300, monsterPaint);
                     }
 
                     mSurfaceHolder.unlockCanvasAndPost(canvas);
@@ -94,16 +112,15 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void updateFrame() {
-        if(isPathComplex(mPoints)){
-            Log.i("INFORMATION","Yes");
+        if(mCaptureLine.update()){
             clearCanvas();
         }
     }
 
     public void clearCanvas(){
-        mPoints.clear();
-        mPath.reset();
-        mPath.moveTo(mX, mY);
+        mCaptureLine.mPoints.clear();
+        mCaptureLine.reset();
+        mCaptureLine.moveTo(mX, mY);
     }
 
     private void setUpBitMap(){
@@ -147,9 +164,9 @@ public class GameView extends SurfaceView implements Runnable {
         return true;
     }
     private void startTouch(float x, float y){
-        mPoints.add(new Point((int)x,(int)y));
-        mPath.reset();
-        mPath.moveTo(x, y);
+        mCaptureLine.mPoints.add(new Point((int)x,(int)y));
+        mCaptureLine.reset();
+        mCaptureLine.moveTo(x, y);
         mX = x;
         mY = y;
     }
@@ -157,64 +174,16 @@ public class GameView extends SurfaceView implements Runnable {
     private void moveTouch(float x, float y){
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
-        mPoints.add(new Point((int)x,(int)y));
+        mCaptureLine.mPoints.add(new Point((int)x,(int)y));
 
         if(dx >= TOLERANCE || dy >= TOLERANCE) {
-            mPath.quadTo(mX,mY,(x + mX) / 2, (y + mY) / 2);
+            mCaptureLine.quadTo(mX,mY,(x + mX) / 2, (y + mY) / 2);
             mX = x;
             mY = y;
         }
     }
 
     private void upTouch(){
-        mPath.lineTo(mX,mY);
-    }
-
-    static Boolean isPathComplex(List<Point> path) {
-
-        if (path == null || path.size() <= 2) {
-            return false;
-        }
-
-        int len = path.size();
-
-        for (int i = 1; i < len; i++) {
-            Point lineAStart = path.get(i - 1);
-            Point lineAEnd = path.get(i);
-
-            for (int j = i + 5; j < len; j++) {
-                Point lineBStart = path.get(j - 1);
-                Point lineBEnd = path.get(j);
-                if (lineSegmentsIntersect(lineAStart.x,lineAStart.y,
-                        lineAEnd.x,lineAEnd.y,
-                        lineBStart.x,lineBStart.y,
-                        lineBEnd.x,lineBEnd.y)) {
-                    return true;
-                }
-
-            } // inner loop
-
-        } // outer loop
-
-        return false;
-    }
-
-    static Boolean lineSegmentsIntersect(float p0_x, float p0_y, float p1_x, float p1_y,
-                                         float p2_x, float p2_y, float p3_x, float p3_y) {
-        float s1_x, s1_y, s2_x, s2_y;
-        s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
-        s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
-
-        float s, t;
-        s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-        t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
-
-        if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
-            // Collision detected
-
-            return true;
-        }
-
-        return false; // No collision
+        mCaptureLine.lineTo(mX,mY);
     }
 }
