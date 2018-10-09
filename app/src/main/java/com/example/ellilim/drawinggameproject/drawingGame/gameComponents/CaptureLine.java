@@ -6,6 +6,10 @@ import android.graphics.Path;
 import android.graphics.Point;
 import java.util.ArrayList;
 
+//TODO 1.0. : Add endpoint to start of path, when user touches it circle is complete
+//TODO 2.0. : Create a filled circle
+//TODO 3.0. : Check if another object is inside of the CaptureLine
+
 /*
 *#CaptureLine
 *CaptureLine is an extension of the Path class, this way its possible
