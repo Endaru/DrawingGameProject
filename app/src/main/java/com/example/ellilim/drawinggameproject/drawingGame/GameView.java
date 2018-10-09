@@ -1,45 +1,27 @@
-package com.example.ellilim.drawinggameproject.gameComponents;
+package com.example.ellilim.drawinggameproject.drawingGame;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.RectF;
-import android.graphics.Region;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
-import com.example.ellilim.drawinggameproject.R;
-import com.example.ellilim.drawinggameproject.monsterComponents.MonsterClass;
-import com.example.ellilim.drawinggameproject.monsterComponents.monsters.TestMonster;
+import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CaptureLine;
+import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterData.smallMonster;
+import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GameView extends SurfaceView implements Runnable {
-
     private boolean mRunning;
     private Thread mGameThread = null;
     private CaptureLine mCaptureLine;
-    private MonsterClass mTestMonster;
-
-    private Context mContext;
-    private Paint mPaint;
-    private Paint monsterPaint;
-    private Bitmap mBitmap;
-    private int mBitmapX,mBitmapY,mViewWidth,mViewHeight;
     private SurfaceHolder mSurfaceHolder;
-    private float mX,mY;
-    private static final float TOLERANCE = 5;
+    private ArrayList<monsterObject> mMonsterObjectList;
 
     public GameView(Context context) {
         this(context, null);
@@ -47,32 +29,16 @@ public class GameView extends SurfaceView implements Runnable {
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
         mSurfaceHolder = getHolder();
-
-        mPaint = new Paint();
-        mPaint.setColor(Color.DKGRAY);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeWidth(20f);
-
-        monsterPaint = new Paint();
-        monsterPaint.setColor(Color.RED);
-        monsterPaint.setStyle(Paint.Style.STROKE);
-        monsterPaint.setStrokeJoin(Paint.Join.ROUND);
-        monsterPaint.setStrokeWidth(20f);
-
         mCaptureLine = new CaptureLine();
-
-        mTestMonster = new TestMonster("test",1,0,300,300);
+        mMonsterObjectList = new ArrayList<monsterObject>();
+        mMonsterObjectList.add(new smallMonster(5,"Piko",0,200,400));
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mBitmapX = w;
-        mBitmapY = h;
-        mBitmap = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+        Bitmap mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
     }
 
     public void run() {
@@ -93,16 +59,13 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas = mSurfaceHolder.lockCanvas();
                 // Fill the canvas with white and draw the bitmap.
                 if(canvas != null) {
-                    canvas.clipPath(mTestMonster,Region.Op.DIFFERENCE);
                     canvas.drawColor(Color.WHITE);
-
                     if (mCaptureLine != null) {
-
-                        canvas.drawPath(mCaptureLine, mPaint);
+                        canvas.drawPath(mCaptureLine, mCaptureLine.mPaint);
                     }
 
-                    if (mTestMonster != null){
-                        canvas.drawRect(300, 300, 300, 300, monsterPaint);
+                    for(monsterObject monster : mMonsterObjectList){
+                        monster.draw(canvas);
                     }
 
                     mSurfaceHolder.unlockCanvasAndPost(canvas);
@@ -112,22 +75,9 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void updateFrame() {
-        if(mCaptureLine.update()){
-            clearCanvas();
+        if(mCaptureLine.checkCaptureLineHitbox()){
+            mCaptureLine.resetCaptureLine();
         }
-    }
-
-    public void clearCanvas(){
-        mCaptureLine.mPoints.clear();
-        mCaptureLine.reset();
-        mCaptureLine.moveTo(mX, mY);
-    }
-
-    private void setUpBitMap(){
-        mBitmapX = (int) Math.floor(
-                Math.random() * (mViewWidth - mBitmap.getWidth()));
-        mBitmapY = (int) Math.floor(
-                Math.random() * (mViewHeight - mBitmap.getHeight()));
     }
 
     public void pause() {
@@ -164,26 +114,14 @@ public class GameView extends SurfaceView implements Runnable {
         return true;
     }
     private void startTouch(float x, float y){
-        mCaptureLine.mPoints.add(new Point((int)x,(int)y));
-        mCaptureLine.reset();
-        mCaptureLine.moveTo(x, y);
-        mX = x;
-        mY = y;
+        mCaptureLine.captureLineStart(x,y);
     }
 
     private void moveTouch(float x, float y){
-        float dx = Math.abs(x - mX);
-        float dy = Math.abs(y - mY);
-        mCaptureLine.mPoints.add(new Point((int)x,(int)y));
-
-        if(dx >= TOLERANCE || dy >= TOLERANCE) {
-            mCaptureLine.quadTo(mX,mY,(x + mX) / 2, (y + mY) / 2);
-            mX = x;
-            mY = y;
-        }
+        mCaptureLine.captureLineMove(x,y);
     }
 
     private void upTouch(){
-        mCaptureLine.lineTo(mX,mY);
+        mCaptureLine.captureLineUp();
     }
 }

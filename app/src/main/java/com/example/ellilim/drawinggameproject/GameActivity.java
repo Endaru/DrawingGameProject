@@ -1,12 +1,11 @@
 package com.example.ellilim.drawinggameproject;
 
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.ellilim.drawinggameproject.gameComponents.GameView;
+import com.example.ellilim.drawinggameproject.drawingGame.GameView;
 
 public class GameActivity extends AppCompatActivity {
 
