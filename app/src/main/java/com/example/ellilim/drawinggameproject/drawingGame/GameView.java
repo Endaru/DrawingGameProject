@@ -21,7 +21,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread mGameThread = null;
     private CaptureLine mCaptureLine;
     private SurfaceHolder mSurfaceHolder;
-    private ArrayList<monsterObject> mMonsterObjectList;
+    private monsterObject mMonsterObject;
 
     public GameView(Context context) {
         this(context, null);
@@ -31,8 +31,7 @@ public class GameView extends SurfaceView implements Runnable {
         super(context, attrs);
         mSurfaceHolder = getHolder();
         mCaptureLine = new CaptureLine();
-        mMonsterObjectList = new ArrayList<monsterObject>();
-        mMonsterObjectList.add(new smallMonster(5,"Piko",0,200,400));
+        mMonsterObject = new smallMonster(5,"Piko",0,150,150,1000,500);
     }
 
     @Override
@@ -45,7 +44,6 @@ public class GameView extends SurfaceView implements Runnable {
         Canvas canvas;
         while (mRunning) {
 
-            updateFrame();
             // If we can obtain a valid drawing surface...
             if (mSurfaceHolder.getSurface().isValid()) {
 
@@ -60,12 +58,13 @@ public class GameView extends SurfaceView implements Runnable {
                 // Fill the canvas with white and draw the bitmap.
                 if(canvas != null) {
                     canvas.drawColor(Color.WHITE);
+                    updateFrame(canvas);
                     if (mCaptureLine != null) {
                         canvas.drawPath(mCaptureLine, mCaptureLine.mPaint);
                     }
 
-                    for(monsterObject monster : mMonsterObjectList){
-                        monster.draw(canvas);
+                    if(mMonsterObject != null){
+                        mMonsterObject.draw(canvas);
                     }
 
                     mSurfaceHolder.unlockCanvasAndPost(canvas);
@@ -74,8 +73,14 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void updateFrame() {
+    private void updateFrame(Canvas canvas) {
+        if(canvas != null){
+            mMonsterObject.update(canvas);
+        }
         if(mCaptureLine.checkCaptureLineHitbox()){
+            mCaptureLine.resetCaptureLine();
+        }
+        if(mMonsterObject.checkCollisionWithCaptureLine(mCaptureLine.returnPoints())){
             mCaptureLine.resetCaptureLine();
         }
     }

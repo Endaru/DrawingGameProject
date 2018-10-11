@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
+
 import java.util.ArrayList;
 
 //TODO 1.0. : Add endpoint to start of path, when user touches it circle is complete
@@ -35,6 +37,10 @@ public class CaptureLine extends Path {
     //Possibility to change the #CaptureLine
     public CaptureLine(Paint paint){
         mPaint = paint;
+    }
+
+    public ArrayList<Point> returnPoints(){
+        return mPoints;
     }
 
     //Start movement of the #CaptureLine
@@ -71,7 +77,6 @@ public class CaptureLine extends Path {
         moveTo(mX, mY);
     }
 
-
     //Here we check if the path we are drawing is complex, complex being short for hitting itself
     public Boolean checkCaptureLineHitbox(){
         if (mPoints == null || mPoints.size() <= 2) {
@@ -84,7 +89,7 @@ public class CaptureLine extends Path {
             Point lineAStart = mPoints.get(i - 1);
             Point lineAEnd = mPoints.get(i);
 
-            for (int j = i + 5; j < length; j++) {
+            for (int j = i + 3; j < length; j++) {
                 Point lineBStart = mPoints.get(j - 1);
                 Point lineBEnd = mPoints.get(j);
                 if (lineSegmentsIntersect(lineAStart.x,lineAStart.y,
