@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">DrawingGameProject</string>
     <string name="main_activity_textview">DebugMenu</string>
-    <string name="debugitem1">Drawing</string>
+    <string name="debugitem1">Maps</string>
     <string name="debugitem2">Game</string>
+    <string name="debugitem3">Login</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

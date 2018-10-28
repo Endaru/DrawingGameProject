@@ -44,7 +44,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:text="Button"
+        android:text="@string/debugitem2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_Main_Activity"
         app:layout_constraintTop_toBottomOf="@+id/textView_Main_Activity" />
@@ -58,7 +58,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="12dp"
-        android:text="@string/debugitem2"
+        android:text="@string/debugitem3"
         app:layout_constraintEnd_toStartOf="@+id/debugItem2"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/debugItem1"
