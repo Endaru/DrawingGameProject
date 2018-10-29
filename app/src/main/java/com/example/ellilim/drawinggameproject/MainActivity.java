@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mDebugButton1.setOnClickListener(this);
         mDebugButton2.setOnClickListener(this);
+        mDebugButton3.setOnClickListener(this);
     }
 
     @Override
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(startGaming);
                 break;
             case R.id.debugItem3:
+                Class loginActivity = LoginActivity.class;
+                Intent startLogin = new Intent(context,loginActivity);
+                startActivity(startLogin);
                 break;
         }
     }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "320541272224",
+    "firebase_url": "https://drawinggameproject.firebaseio.com",
+    "project_id": "drawinggameproject",
+    "storage_bucket": "drawinggameproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320541272224:android:709e2d4eab499113",
+        "android_client_info": {
+          "package_name": "com.example.ellilim.drawinggameproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320541272224-kio8fmqtd7h4epqh03m9asu4vkaico0r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ellilim.drawinggameproject",
+            "certificate_hash": "c29a56851490df92894a1fa23ea78639798c91db"
+          }
+        },
+        {
+          "client_id": "320541272224-q825rvmhidojtutsp1j4g4ipnd8b3cah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwX9K4DAjMfNVH66nvjuMzvzUzLBewzHw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320541272224-q825rvmhidojtutsp1j4g4ipnd8b3cah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
