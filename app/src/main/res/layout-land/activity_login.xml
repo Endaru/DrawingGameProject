@@ -14,7 +14,7 @@
         android:contentDescription="@string/content_description_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/logo_app"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@mipmap/ic_launcher_round"
@@ -35,7 +35,7 @@
 
     <EditText
         android:id="@+id/editText_Email"
-        android:layout_width="wrap_content"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -48,7 +48,7 @@
 
     <EditText
         android:id="@+id/editText_Password"
-        android:layout_width="wrap_content"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -65,15 +65,16 @@
         android:layout_width="218dp"
         android:layout_height="38dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="12dp"
         android:background="@color/PrimaryColor"
         android:backgroundTint="@color/PrimaryColor"
         android:elevation="0dp"
         android:text="@string/button_login"
         android:textColor="@android:color/background_light"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_Password" />
 
@@ -83,13 +84,14 @@
         android:layout_height="38dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@color/PrimaryDarkColor"
         android:backgroundTint="@color/PrimaryDarkColor"
         android:text="@string/button_signup"
         android:textColor="@android:color/background_light"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_signin" />
 
@@ -99,12 +101,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
         android:clickable="true"
         app:backgroundTint="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup"
+        app:layout_constraintTop_toBottomOf="@+id/editText_Password"
         app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
 </android.support.constraint.ConstraintLayout>

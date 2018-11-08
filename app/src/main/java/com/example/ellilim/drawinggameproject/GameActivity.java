@@ -16,7 +16,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mGameView = new GameView(this);
-        mGameView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(mGameView);
     }
 
@@ -31,4 +30,5 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
         mGameView.resume();
     }
+
 }
