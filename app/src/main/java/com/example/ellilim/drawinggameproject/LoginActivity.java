@@ -1,19 +1,26 @@
 package com.example.ellilim.drawinggameproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,10 +33,17 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private Button signIn;
+    private Button signUp;
+    private FloatingActionButton google;
+
+    private EditTextWithValidation mail;
+    private EditTextWithValidation password;
+
+    private CRUD DBFunctions;
 
     private static final int RC_SIGN_IN = 0;
     List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
             new AuthUI.IdpConfig.GoogleBuilder().build()
     );
 
@@ -38,60 +52,54 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /**
-        startActivityForResult(AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),RC_SIGN_IN);
-         **/
+        DBFunctions = new CRUD(this);
+
+        signIn = (Button) findViewById(R.id.button_signin);
+        signUp = (Button) findViewById(R.id.signup);
+        google = (FloatingActionButton) findViewById(R.id.googleButton);
+
+        mail = (EditTextWithValidation) findViewById(R.id.editText_Email);
+        password = (EditTextWithValidation) findViewById(R.id.editText_Password);
+
+        signIn.setOnClickListener(this);
+        signUp.setOnClickListener(this);
+        google.setOnClickListener(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == RC_SIGN_IN){
-            Log.i("INFORMATION","LOGINTRY");
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            if(resultCode == RESULT_OK){
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.i("INFORMATION","" + user.getUid());
-            } else {
-                Log.i("INFORMATION","What?");
-            }
-        }
+        DBFunctions.onActivityResult(requestCode,resultCode,data);
     }
 
     @Override
     public void onClick(View v) {
-        Context context = LoginActivity.this;
-        /**
         switch (v.getId()){
-            case R.id.button:
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                Map<String, Object> userTest = new HashMap<>();
-                userTest.put("name", "Endaru");
-                userTest.put("lvl", 1);
-
-                db.collection("users")
-                        .add(userTest)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("FIREBASE", "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("FIREBASE", "Error adding document", e);
-                            }
-                        });
+            case R.id.button_signin:
+                if(validation()){
+                    DBFunctions.FirebaseSignIn(mail.getText().toString().trim(),password.getText().toString().trim());
+                }
                 break;
-            case R.id.button2:
-                FirebaseAuth.getInstance().signOut();
+            case R.id.googleButton:
+                DBFunctions.GoogleSignIn();
+                break;
+            case R.id.signup:
+                Class signUpActivity = SignUpActivity.class;
+                Intent startSignUp = new Intent(LoginActivity.this,signUpActivity);
+                startActivity(startSignUp);
+                break;
         }
-         **/
+    }
+
+    private boolean validation(){
+        boolean goodMail = false;
+        boolean goodPass = false;
+
+        if(mail.getText().toString().trim().length() >= 2){
+            goodMail = true;
+        }
+        if(password.getText().toString().trim().length() >= 2){
+            goodPass = true;
+        }
+        return goodMail && goodPass;
     }
 }

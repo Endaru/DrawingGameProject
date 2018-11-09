@@ -9,4 +9,7 @@
     <color name="Highlight">#89C8C2</color>
     <color name="AccentDark">#F2BA29</color>
     <color name="Accent">#ebcf8f</color>
+
+    <color name="Error">#CD403E</color>
+    <color name="Correct">#00B200</color>
 </resources>

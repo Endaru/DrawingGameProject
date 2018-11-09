@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
-    <EditText
+    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
         android:id="@+id/editText_Email"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo_app" />
 
-    <EditText
+    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
         android:id="@+id/editText_Password"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
@@ -101,11 +101,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:clickable="true"
         app:backgroundTint="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.962"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.337"
+        app:layout_constraintStart_toEndOf="@+id/button_signin"
         app:layout_constraintTop_toBottomOf="@+id/editText_Password"
         app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 

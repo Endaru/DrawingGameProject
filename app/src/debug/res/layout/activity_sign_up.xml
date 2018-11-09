@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/logo_app"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@mipmap/ic_launcher_round"
@@ -33,9 +33,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
-    <EditText
+    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
         android:id="@+id/editText_Email"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -47,9 +47,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo_app" />
 
-    <EditText
+    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
         android:id="@+id/editText_Password"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -62,9 +62,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_Password_Check" />
 
-    <EditText
+    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
         android:id="@+id/editText_Password_Check"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -76,26 +76,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_Email" />
 
-    <EditText
-        android:id="@+id/editText_Username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/editTextNickHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Password" />
-
     <Button
         android:id="@+id/button_signin"
         android:layout_width="152dp"
         android:layout_height="38dp"
         android:layout_marginEnd="84dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@color/PrimaryColor"
         android:backgroundTint="@color/PrimaryColor"
         android:elevation="0dp"
@@ -103,21 +89,21 @@
         android:textColor="@android:color/background_light"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/background"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Username" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_Password" />
 
     <ImageButton
         android:id="@+id/returnButton"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@color/PrimaryDarkColor"
         android:contentDescription="@string/content_description_btn_back"
         android:tint="@android:color/background_light"
         app:layout_constraintEnd_toStartOf="@+id/button_signin"
         app:layout_constraintHorizontal_bias="0.754"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Username"
+        app:layout_constraintTop_toBottomOf="@+id/editText_Password"
         app:srcCompat="?attr/homeAsUpIndicator" />
 
 </android.support.constraint.ConstraintLayout>
