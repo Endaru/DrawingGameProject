@@ -2,21 +2,26 @@ package com.example.ellilim.drawinggameproject;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Looper;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.ellilim.drawinggameproject.mapsParts.MarkerObject;
 import com.example.ellilim.drawinggameproject.mapsParts.Randomizer;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -36,7 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener,View.OnClickListener{
 
     private GoogleMap mMap;
     LocationRequest mLocationRequest;
@@ -48,14 +53,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     float[] mDistance = new float[2];
     Boolean testvalue = true;
 
+    FloatingActionButton UserButton;
+    FloatingActionButton MonsterButton;
+    FloatingActionButton Logout;
+
+    private CRUD DBFunctions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DBFunctions = new CRUD(this);
         setContentView(R.layout.activity_maps);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        UserButton = (FloatingActionButton) findViewById(R.id.userButton);
+        MonsterButton = (FloatingActionButton) findViewById(R.id.MonsterButton);
+        Logout = (FloatingActionButton) findViewById(R.id.LogoutButton);
+
+        UserButton.setOnClickListener(this);
+        MonsterButton.setOnClickListener(this);
+        Logout.setOnClickListener(this);
     }
 
     @Override
@@ -214,7 +235,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return false;
         } else {
             Toast.makeText(getBaseContext(),"Inside",Toast.LENGTH_LONG).show();
+            Class gameActivity = GameActivity.class;
+            Intent startGaming = new Intent(MapsActivity.this,gameActivity);
+            startActivity(startGaming);
             return true;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Context context = MapsActivity.this;
+        switch (v.getId()) {
+            case R.id.userButton:
+                startActivity(new Intent(context, UserActivity.class));
+                break;
+            case R.id.MonsterButton:
+                startActivity(new Intent(context, MonsterActivity.class));
+                break;
+            case R.id.LogoutButton:
+                finish();
+                break;
         }
     }
 }

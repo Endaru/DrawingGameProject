@@ -9,7 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation;
@@ -98,7 +100,9 @@ public class CRUD {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Toast.makeText(callingActivity, "Authentication Succesfull.", Toast.LENGTH_SHORT).show();
-                        callingActivity.finish();
+
+                        //Finish Builder
+                        toMap();
                     } else {
                         firstLogin();
                     }
@@ -110,13 +114,11 @@ public class CRUD {
     }
 
     protected void firstLogin(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(callingActivity);
-        builder.setTitle("Choose Username");
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(callingActivity,R.style.AlertDialogCustom));
         final EditTextWithValidation input = new EditTextWithValidation(callingActivity);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint("Username");
         builder.setView(input);
-
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -126,7 +128,9 @@ public class CRUD {
                     data.put("lvl",1);
                     DB.collection("users").document(user.getUid()).set(data, SetOptions.merge());
                     Toast.makeText(callingActivity, "Authentication Succesfull.", Toast.LENGTH_SHORT).show();
-                    callingActivity.finish();
+
+                    //Finish Builder
+                    toMap();
                 }
             }
 
@@ -138,7 +142,9 @@ public class CRUD {
                 return goodName;
             }
         });
-        builder.show();
+        AlertDialog alert = builder.create();
+        alert.getWindow().setLayout(100,50);
+        alert.show();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -146,10 +152,15 @@ public class CRUD {
             if(resultCode == RESULT_OK){
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 checkAccount();
-                Toast.makeText(callingActivity, "Authentication Succesfull.", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(callingActivity, "Authentication failed.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    protected void toMap(){
+        Class mapsActivity = MapsActivity.class;
+        Intent startMaps = new Intent(callingActivity,mapsActivity);
+        callingActivity.startActivity(startMaps);
     }
 }
