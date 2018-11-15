@@ -42,11 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private CRUD DBFunctions;
 
-    private static final int RC_SIGN_IN = 0;
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.GoogleBuilder().build()
-    );
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         google.setOnClickListener(this);
     }
 
+    //Need to call this to allow Google to use signIn, While having most functionality inside
+    //Of the CRUD class.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         DBFunctions.onActivityResult(requestCode,resultCode,data);
@@ -90,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    //Validation for the selected fields
     private boolean validation(){
         boolean goodMail = false;
         boolean goodPass = false;

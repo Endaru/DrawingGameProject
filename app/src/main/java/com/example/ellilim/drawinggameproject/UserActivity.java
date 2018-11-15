@@ -10,11 +10,15 @@ import android.view.View;
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
     FloatingActionButton returnButton;
+    private CRUD DBFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        DBFunctions = new CRUD(this);
+        DBFunctions.getUserAccount();
 
         returnButton = (FloatingActionButton) findViewById(R.id.returnButton);
 

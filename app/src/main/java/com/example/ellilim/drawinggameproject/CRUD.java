@@ -32,12 +32,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CRUD {
+public class CRUD{
     private FirebaseAuth mAuth;
     private Activity callingActivity;
     private FirebaseUser user;
     private FirebaseFirestore DB;
-    private String Username;
 
     private static final int RC_SIGN_IN = 0;
     private static final int RESULT_OK = -1;
@@ -87,10 +86,7 @@ public class CRUD {
                 .build(),RC_SIGN_IN);
     }
 
-    protected FirebaseUser FirebaseGetUser(){
-        return user;
-    }
-
+    //Check if the account already has an entry in the FireStore, If Yes continue, if no create it.
     protected void checkAccount(){
         DocumentReference docRef = DB.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -100,17 +96,24 @@ public class CRUD {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Toast.makeText(callingActivity, "Authentication Succesfull.", Toast.LENGTH_SHORT).show();
-
-                        //Finish Builder
                         toMap();
                     } else {
                         firstLogin();
                     }
                 } else {
-                    Log.i("INFORMATION", "get failed with ", task.getException());
+                    Log.i("ERROR", "Failed", task.getException());
                 }
             }
         });
+    }
+
+    protected void getUserAccount(){
+        if(mAuth.getInstance().getCurrentUser() != null){
+            DocumentReference userRef = DB.collection("users").document(user.getUid());
+        } else {
+            toLogin();
+        }
+
     }
 
     protected void firstLogin(){
@@ -162,5 +165,12 @@ public class CRUD {
         Class mapsActivity = MapsActivity.class;
         Intent startMaps = new Intent(callingActivity,mapsActivity);
         callingActivity.startActivity(startMaps);
+    }
+
+    protected void toLogin(){
+        Class logActivity = LoginActivity.class;
+        Intent startLogin = new Intent(callingActivity,logActivity);
+        startLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        callingActivity.startActivity(startLogin);
     }
 }
