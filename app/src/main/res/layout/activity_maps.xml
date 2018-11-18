@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity">
+    tools:context=".activities.MapsActivity">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity"
+        tools:context=".activities.MapsActivity"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -74,6 +74,19 @@
         android:src="@drawable/ic_exit_to_app_black_24dp"
         app:backgroundTint="@color/Accent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@color/Highlight" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/GameButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:src="@drawable/ic_view_headline_black_24dp"
+        app:backgroundTint="@color/Accent"
+        app:layout_constraintStart_toEndOf="@+id/MonsterButton"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="@color/Highlight" />
 

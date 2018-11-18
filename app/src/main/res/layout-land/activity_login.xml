@@ -4,110 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="@color/browser_actions_text_color"
+    tools:context=".activities.LoginActivity">
 
-    <ImageView
-        android:id="@+id/background"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/loginLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/AccentDark"
-        android:contentDescription="@string/content_description_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@color/AccentDark" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/logo_app"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@mipmap/ic_launcher_round"
-        android:contentDescription="@string/content_description_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/AccentDark"
+            android:contentDescription="@string/content_description_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@color/AccentDark" />
 
-    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
-        android:id="@+id/editText_Email"
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="@string/editTextEmailHint"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_app" />
+        <ImageView
+            android:id="@+id/logo_app"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@mipmap/ic_launcher_round"
+            android:contentDescription="@string/content_description_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher_round" />
 
-    <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
-        android:id="@+id/editText_Password"
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/editTextPasswordHint"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Email" />
+        <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
+            android:id="@+id/editText_Password"
+            android:layout_width="395dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/editTextPasswordHint"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_Email" />
 
-    <Button
-        android:id="@+id/button_signin"
-        android:layout_width="218dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/PrimaryColor"
-        android:backgroundTint="@color/PrimaryColor"
-        android:elevation="0dp"
-        android:text="@string/button_login"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Password" />
+        <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
+            android:id="@+id/editText_Email"
+            android:layout_width="395dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:hint="@string/editTextEmailHint"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_app" />
 
-    <Button
-        android:id="@+id/signup"
-        android:layout_width="218dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/PrimaryDarkColor"
-        android:backgroundTint="@color/PrimaryDarkColor"
-        android:text="@string/button_signup"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_signin" />
+        <Button
+            android:id="@+id/button_signin"
+            android:layout_width="218dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/PrimaryColor"
+            android:backgroundTint="@color/PrimaryColor"
+            android:elevation="0dp"
+            android:text="@string/button_login"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_Password" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/googleButton"
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="218dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/PrimaryDarkColor"
+            android:backgroundTint="@color/PrimaryDarkColor"
+            android:text="@string/button_signup"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.26"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_signin" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/googleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:clickable="true"
+            app:backgroundTint="@android:color/background_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.337"
+            app:layout_constraintStart_toEndOf="@+id/button_signin"
+            app:layout_constraintTop_toBottomOf="@+id/editText_Password"
+            app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <fragment
+        android:id="@+id/fragment_username_login"
+        android:name="com.example.ellilim.drawinggameproject.fragments.UsernameFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:clickable="true"
-        app:backgroundTint="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.337"
-        app:layout_constraintStart_toEndOf="@+id/button_signin"
-        app:layout_constraintTop_toBottomOf="@+id/editText_Password"
-        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498"
+        tools:layout="@layout/username_fragment" />
 
 </android.support.constraint.ConstraintLayout>

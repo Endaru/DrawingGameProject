@@ -4,13 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.ellilim.drawinggameproject.activities.McaptureGameActivity;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CaptureLine;
+import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CursorPoint;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterData.smallMonster;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterObject;
 
@@ -22,16 +25,21 @@ public class GameView extends SurfaceView implements Runnable {
     private CaptureLine mCaptureLine;
     private SurfaceHolder mSurfaceHolder;
     private monsterObject mMonsterObject;
+    private CursorPoint mCursorPoint;
+    private float mX,mY;
+    private McaptureGameActivity mRequestedActivity;
+    private boolean filledPath;
 
-    public GameView(Context context) {
-        this(context, null);
-    }
+    public GameView(Context context, McaptureGameActivity activity) { this(context, activity, null); }
 
-    public GameView(Context context, AttributeSet attrs) {
+    public GameView(Context context, McaptureGameActivity activity, AttributeSet attrs) {
         super(context, attrs);
+        mRequestedActivity = activity;
         mSurfaceHolder = getHolder();
         mCaptureLine = new CaptureLine();
+        mCursorPoint = new CursorPoint();
         mMonsterObject = new smallMonster(5,"Piko",0,150,150,1000,500);
+        filledPath = false;
     }
 
     @Override
@@ -76,12 +84,30 @@ public class GameView extends SurfaceView implements Runnable {
     private void updateFrame(Canvas canvas) {
         if(canvas != null){
             mMonsterObject.update(canvas);
+            mCursorPoint.createCursorPoint(canvas);
+
+            if(filledPath){
+                if(mMonsterObject.checkCapture(mCaptureLine.returnPoints())){
+                    if(mMonsterObject.capturePoints == 0){
+                        mRunning = false;
+                        mRequestedActivity.gameFinished(true,mMonsterObject);
+                    }else{
+                        mMonsterObject.capturePoints--;
+                        Log.i("INFORMATION:", "" + mMonsterObject.capturePoints);
+                        mCaptureLine.resetCaptureLine();
+                        mCursorPoint.resetCursorPoint();
+                        filledPath = false;
+                    }
+                }
+            }
         }
         if(mCaptureLine.checkCaptureLineHitbox()){
             mCaptureLine.resetCaptureLine();
+            mCursorPoint.resetCursorPoint();
         }
         if(mMonsterObject.checkCollisionWithCaptureLine(mCaptureLine.returnPoints())){
             mCaptureLine.resetCaptureLine();
+            mCursorPoint.resetCursorPoint();
         }
     }
 
@@ -105,6 +131,8 @@ public class GameView extends SurfaceView implements Runnable {
         float x = event.getX();
         float y = event.getY();
 
+        mCursorPoint.update(x,y);
+
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 startTouch(x,y);
@@ -120,13 +148,16 @@ public class GameView extends SurfaceView implements Runnable {
     }
     private void startTouch(float x, float y){
         mCaptureLine.captureLineStart(x,y);
+        mCursorPoint.resetCursorPoint();
     }
 
-    private void moveTouch(float x, float y){
+    private void moveTouch(float x, float y) {
         mCaptureLine.captureLineMove(x,y);
+        if(mCursorPoint.isInsideofCircle(x,y) && mCaptureLine.returnPoints().size() > 28){
+            mCaptureLine.fillCaptureLine();
+            filledPath = true;
+        }
     }
 
-    private void upTouch(){
-        mCaptureLine.captureLineUp();
-    }
+    private void upTouch(){ mCaptureLine.captureLineUp();}
 }

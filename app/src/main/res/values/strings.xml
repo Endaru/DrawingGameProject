@@ -17,4 +17,9 @@
     //AccountCreateScreen
     <string name="content_description_btn_back">Go Back</string>
     <string name="editTextNickHint">Username</string>
+
+    //UserActivity
+    <string name="btn_delete_account">Delete Account</string>
+    <string name="btn_change_username">Change Username</string>
+    <string name="btn_reset_lvl">Reset Lvl</string>
 </resources>

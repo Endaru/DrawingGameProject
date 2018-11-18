@@ -1,48 +1,39 @@
-package com.example.ellilim.drawinggameproject;
+package com.example.ellilim.drawinggameproject.activities;
 
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
+import com.example.ellilim.drawinggameproject.R;
+import com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions;
+import com.example.ellilim.drawinggameproject.logicalComponents.EnumSuccesCodes;
 import com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
-
-    private Button signIn;
-    private ImageButton returnButton;
+public class SignUpActivity extends McaptureActivity implements View.OnClickListener{
 
     private EditTextWithValidation mail;
     private EditTextWithValidation password;
     private EditTextWithValidation password_check;
+    private EditTextWithValidation username;
 
-    private CRUD DBFunctions;
+    private com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions DBFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        DBFunctions = new CRUD(this);
+        DBFunctions = new DBFunctions(this);
 
-        signIn = (Button) findViewById(R.id.button_signin);
-        returnButton = (ImageButton) findViewById(R.id.returnButton);
+        Button signIn = (Button) findViewById(R.id.button_signin);
+        ImageButton returnButton = (ImageButton) findViewById(R.id.returnButton);
 
         mail = (EditTextWithValidation) findViewById(R.id.editText_Email);
         password = (EditTextWithValidation) findViewById(R.id.editText_Password);
         password_check = (EditTextWithValidation) findViewById(R.id.editText_Password_Check);
+        username = (EditTextWithValidation) findViewById(R.id.editText_Username);
 
         signIn.setOnClickListener(this);
         returnButton.setOnClickListener(this);
@@ -67,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         boolean goodPass = false;
         boolean goodPassCheck = false;
         boolean goodPassMatch = false;
+        boolean goodName = false;
 
         if(mail.getText().toString().trim().length() >= 2){
             goodMail = true;
@@ -82,6 +74,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 goodPassMatch = true;
             }
         }
-        return goodMail && goodPass && goodPassCheck && goodPassMatch;
+        if(username.getText().toString().trim().length() >= 2){
+            goodName = true;
+        }
+        return goodMail && goodPass && goodPassCheck && goodPassMatch && goodName;
+    }
+
+    @Override
+    public void requestedJob(boolean JobSuccesful, EnumSuccesCodes code) {
+        switch (code){
+            case CREATEACCOUNT:
+                if(JobSuccesful){
+                    DBFunctions.setUsername(username.getText().toString().trim());
+                }
+                break;
+            case SETUSERNAME:
+                if(JobSuccesful){
+                    DBFunctions.setLvl(1);
+                }
+                break;
+            case SETLVL:
+                if(JobSuccesful){
+                    Class mapsActivity = MapsActivity.class;
+                    Intent startMaps = new Intent(SignUpActivity.this,mapsActivity);
+                    startActivity(startMaps);
+                }
+                break;
+        }
     }
 }

@@ -51,9 +51,22 @@ public abstract class monsterObject {
 
         mRectangle = new Rect(mX,mY,(mX + monsterWidth),(mY + monsterHeight));
     }
+    public boolean checkBounds(Canvas canvas){
+        int cx0 = 50;
+        int cx1 = canvas.getWidth() - 50;
+        int cy0 = 50;
+        int cy1 = canvas.getHeight() - 50;
 
+        int rx0 = mX;
+        int rx1 = mX + monsterWidth;
+        int ry0 = mY;
+        int ry1 = mY + monsterHeight;
+
+        return (rx0 >= cx0 && rx1 <  cx1 && ry0 >= cy0 && ry1 <  cy1);
+    }
     public abstract void draw(Canvas canvas);
     public abstract Boolean checkCollisionWithCaptureLine(ArrayList<Point> points);
     public abstract void update(Canvas canvas);
-    public abstract void movement();
+    public abstract void movement(Canvas canvas);
+    public abstract Boolean checkCapture(ArrayList<Point> points);
 }

@@ -2,6 +2,6 @@
     package="com.example.ellilim.drawinggameproject">
 
     <application>
-        <activity android:name="com.example.ellilim.drawinggameproject.SignUpActivity"></activity>
+        <activity android:name="com.example.ellilim.drawinggameproject.activities.SignUpActivity"></activity>
     </application>
 </manifest>

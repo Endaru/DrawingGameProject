@@ -1,5 +1,6 @@
 package com.example.ellilim.drawinggameproject.drawingGame.gameComponents;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -24,6 +25,7 @@ public class CaptureLine extends Path {
     protected ArrayList<Point> mPoints = new ArrayList<>();
     private float mX,mY;
     public Paint mPaint;
+    private boolean mBounds = true;
 
     //If no paint is given then #CaptureLine is basic
     public CaptureLine(){
@@ -45,6 +47,8 @@ public class CaptureLine extends Path {
 
     //Start movement of the #CaptureLine
     public void captureLineStart(float x, float y){
+        mBounds = false;
+        mPoints.clear();
         mPoints.add(new Point((int)x,(int)y));
         reset();
         moveTo(x, y);
@@ -72,14 +76,19 @@ public class CaptureLine extends Path {
 
     //Reset the #CaptureLine
     public void resetCaptureLine(){
+        mBounds = false;
         mPoints.clear();
         reset();
         moveTo(mX, mY);
     }
 
+    public void fillCaptureLine(){
+        mBounds = true;
+    }
+
     //Here we check if the path we are drawing is complex, complex being short for hitting itself
     public Boolean checkCaptureLineHitbox(){
-        if (mPoints == null || mPoints.size() <= 2) {
+        if ((mPoints == null || mPoints.size() <= 3) || mBounds) {
             return false;
         }
 
@@ -89,7 +98,7 @@ public class CaptureLine extends Path {
             Point lineAStart = mPoints.get(i - 1);
             Point lineAEnd = mPoints.get(i);
 
-            for (int j = i + 3; j < length; j++) {
+            for (int j = i + 2; j < length; j++) {
                 Point lineBStart = mPoints.get(j - 1);
                 Point lineBEnd = mPoints.get(j);
                 if (lineSegmentsIntersect(lineAStart.x,lineAStart.y,

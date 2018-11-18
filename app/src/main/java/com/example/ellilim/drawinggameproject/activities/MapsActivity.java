@@ -1,4 +1,4 @@
-package com.example.ellilim.drawinggameproject;
+package com.example.ellilim.drawinggameproject.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -19,9 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.ellilim.drawinggameproject.R;
 import com.example.ellilim.drawinggameproject.mapsParts.MarkerObject;
 import com.example.ellilim.drawinggameproject.mapsParts.Randomizer;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -31,7 +31,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,15 +54,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     FloatingActionButton UserButton;
     FloatingActionButton MonsterButton;
+    FloatingActionButton GameButton;
     FloatingActionButton Logout;
 
-    private CRUD DBFunctions;
+    private com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions DBFunctions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DBFunctions = new CRUD(this);
+        //DBFunctions = new DBFunctions(this);
         setContentView(R.layout.activity_maps);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -73,10 +73,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         UserButton = (FloatingActionButton) findViewById(R.id.userButton);
         MonsterButton = (FloatingActionButton) findViewById(R.id.MonsterButton);
         Logout = (FloatingActionButton) findViewById(R.id.LogoutButton);
+        GameButton = (FloatingActionButton) findViewById(R.id.GameButton);
 
         UserButton.setOnClickListener(this);
         MonsterButton.setOnClickListener(this);
         Logout.setOnClickListener(this);
+        GameButton.setOnClickListener(this);
     }
 
     @Override
@@ -254,6 +256,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
             case R.id.LogoutButton:
                 finish();
+                break;
+            case R.id.GameButton:
+                startActivity(new Intent(context, GameActivity.class));
                 break;
         }
     }

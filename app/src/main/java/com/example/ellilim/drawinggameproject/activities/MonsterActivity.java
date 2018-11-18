@@ -1,10 +1,12 @@
-package com.example.ellilim.drawinggameproject;
+package com.example.ellilim.drawinggameproject.activities;
 
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.ellilim.drawinggameproject.R;
 
 public class MonsterActivity extends AppCompatActivity implements View.OnClickListener {
 
