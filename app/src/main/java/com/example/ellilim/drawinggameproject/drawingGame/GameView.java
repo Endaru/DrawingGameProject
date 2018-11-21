@@ -108,6 +108,10 @@ public class GameView extends SurfaceView implements Runnable {
         if(mMonsterObject.checkCollisionWithCaptureLine(mCaptureLine.returnPoints())){
             mCaptureLine.resetCaptureLine();
             mCursorPoint.resetCursorPoint();
+            if(mRequestedActivity.lineHit()){
+                mRunning = false;
+                mRequestedActivity.gameFinished(false,mMonsterObject);
+            }
         }
     }
 
