@@ -4,23 +4,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.ellilim.drawinggameproject.activities.McaptureGameActivity;
+import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureGameActivity;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CaptureLine;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CursorPoint;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterData.smallMonster;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterObject;
 
-import java.util.ArrayList;
-
 public class GameView extends SurfaceView implements Runnable {
     private boolean mRunning;
+    private boolean mGameFinished;
     private Thread mGameThread = null;
     private CaptureLine mCaptureLine;
     private SurfaceHolder mSurfaceHolder;
@@ -40,6 +38,7 @@ public class GameView extends SurfaceView implements Runnable {
         mCursorPoint = new CursorPoint();
         mMonsterObject = new smallMonster(5,"Piko",0,150,150,1000,500);
         filledPath = false;
+        mGameFinished = false;
     }
 
     @Override
@@ -51,7 +50,6 @@ public class GameView extends SurfaceView implements Runnable {
     public void run() {
         Canvas canvas;
         while (mRunning) {
-
             // If we can obtain a valid drawing surface...
             if (mSurfaceHolder.getSurface().isValid()) {
 
@@ -79,6 +77,9 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
         }
+        if(!mRunning){
+            mRequestedActivity.gameFinished(mGameFinished,mMonsterObject);
+        }
     }
 
     private void updateFrame(Canvas canvas) {
@@ -90,10 +91,9 @@ public class GameView extends SurfaceView implements Runnable {
                 if(mMonsterObject.checkCapture(mCaptureLine.returnPoints())){
                     if(mMonsterObject.capturePoints == 0){
                         mRunning = false;
-                        mRequestedActivity.gameFinished(true,mMonsterObject);
+                        mGameFinished = true;
                     }else{
                         mMonsterObject.capturePoints--;
-                        Log.i("INFORMATION:", "" + mMonsterObject.capturePoints);
                         mCaptureLine.resetCaptureLine();
                         mCursorPoint.resetCursorPoint();
                         filledPath = false;
@@ -110,7 +110,6 @@ public class GameView extends SurfaceView implements Runnable {
             mCursorPoint.resetCursorPoint();
             if(mRequestedActivity.lineHit()){
                 mRunning = false;
-                mRequestedActivity.gameFinished(false,mMonsterObject);
             }
         }
     }

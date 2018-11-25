@@ -1,12 +1,15 @@
-package com.example.ellilim.drawinggameproject.activities;
+package com.example.ellilim.drawinggameproject.activities.parentActivities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.ellilim.drawinggameproject.dbObjects.Monster;
 import com.example.ellilim.drawinggameproject.dbObjects.UserAccount;
 import com.example.ellilim.drawinggameproject.logicalComponents.EnumSuccesCodes;
+
+import java.util.List;
 
 public abstract class McaptureActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,7 +22,7 @@ public abstract class McaptureActivity extends AppCompatActivity implements View
         //TODO: add data
     }
 
-    public void requestedMonsterList(){
+    public void requestedMonsterList(List<Monster> monsters){
         //TODO: add data
     }
 

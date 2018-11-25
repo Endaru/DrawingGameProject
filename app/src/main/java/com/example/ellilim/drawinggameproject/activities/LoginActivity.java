@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.ellilim.drawinggameproject.R;
+import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureActivity;
 import com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions;
 import com.example.ellilim.drawinggameproject.logicalComponents.EnumSuccesCodes;
 import com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation;

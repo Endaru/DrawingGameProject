@@ -1,21 +1,20 @@
 package com.example.ellilim.drawinggameproject.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ellilim.drawinggameproject.R;
+import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureActivity;
 import com.example.ellilim.drawinggameproject.dbObjects.UserAccount;
 import com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions;
 import com.example.ellilim.drawinggameproject.logicalComponents.EnumSuccesCodes;
 
-public class UserActivity extends McaptureActivity{
+public class UserActivity extends McaptureActivity {
 
     public DBFunctions DBFunctions;
     private ConstraintLayout userLayout;

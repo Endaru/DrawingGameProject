@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/returnButton"
+        android:layout_width="60dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_clear_black_24dp"
+        app:backgroundTint="@color/Accent"
+        app:layout_constraintBottom_toBottomOf="@+id/background_resultscreen_fragment"
+        app:layout_constraintEnd_toEndOf="@+id/background_resultscreen_fragment"
+        app:layout_constraintStart_toStartOf="@+id/background_resultscreen_fragment"
+        app:rippleColor="@color/Highlight" />
+
+    <ImageView
+        android:id="@+id/background_resultscreen_fragment"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/AccentDark"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/AccentDark" />
+
+    <ImageView
+        android:id="@+id/foreground"
+        android:layout_width="280dp"
+        android:layout_height="150dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="@+id/background_resultscreen_fragment"
+        app:layout_constraintStart_toStartOf="@+id/background_resultscreen_fragment"
+        app:layout_constraintTop_toTopOf="@+id/background_resultscreen_fragment"
+        app:srcCompat="@android:color/background_light" />
+
+    <TextView
+        android:id="@+id/ResultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="You Lost, Piko ran away!"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/foreground"
+        app:layout_constraintStart_toStartOf="@+id/foreground"
+        app:layout_constraintTop_toTopOf="@+id/foreground" />
+
+    <ProgressBar
+        android:id="@+id/experienceBar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="250dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:max="100"
+        android:progress="0"
+        android:progressTint="@color/Highlight"
+        android:scaleY="3"
+        app:layout_constraintBottom_toTopOf="@+id/EXP"
+        app:layout_constraintEnd_toEndOf="@+id/foreground"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="@+id/foreground" />
+
+    <TextView
+        android:id="@+id/EXP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="EXP"
+        app:layout_constraintBottom_toTopOf="@+id/returnButton"
+        app:layout_constraintEnd_toEndOf="@+id/experienceBar"
+        app:layout_constraintStart_toStartOf="@+id/experienceBar" />
+
+</android.support.constraint.ConstraintLayout>

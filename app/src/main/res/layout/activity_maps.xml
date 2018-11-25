@@ -4,90 +4,149 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
     tools:context=".activities.MapsActivity">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mapsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.MapsActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="0dp">
 
-    <ImageView
-        android:id="@+id/bottomBar"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:src="@color/AccentDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".activities.MapsActivity"
+            tools:layout_editor_absoluteX="37dp"
+            tools:layout_editor_absoluteY="0dp" />
 
-    <ImageView
-        android:id="@+id/TopBar"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:src="@color/AccentDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/TopBar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:src="@color/AccentDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/userButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="500dp"
+        <ImageView
+            android:id="@+id/bottomBar"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:src="@color/AccentDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/userButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="500dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_person_black_24dp"
+            app:backgroundTint="@color/Accent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:rippleColor="@color/Highlight" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/MonsterButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_android_black_24dp"
+            app:backgroundTint="@color/Accent"
+            app:layout_constraintStart_toEndOf="@+id/userButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/Highlight" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/GameButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_view_headline_black_24dp"
+            app:backgroundTint="@color/Accent"
+            app:layout_constraintStart_toEndOf="@+id/MonsterButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/Highlight" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/LogoutButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_exit_to_app_black_24dp"
+            app:backgroundTint="@color/Accent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/Highlight" />
+
+        <Switch
+            android:id="@+id/DebugMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/AccentDark"
+            android:switchPadding="5dp"
+            android:text="DebugMode"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Switch
+            android:id="@+id/RadiusMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/AccentDark"
+            android:switchPadding="5dp"
+            android:text="Radius"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/DebugMode" />
+
+        <Switch
+            android:id="@+id/MarkerMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/AccentDark"
+            android:switchPadding="5dp"
+            android:text="Markers"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/RadiusMode" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/result_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_person_black_24dp"
-        app:backgroundTint="@color/Accent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/mapsLayout"
+        app:layout_constraintEnd_toEndOf="@+id/mapsLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:rippleColor="@color/Highlight" />
+        app:layout_constraintTop_toTopOf="@+id/mapsLayout">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/MonsterButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_android_black_24dp"
-        app:backgroundTint="@color/Accent"
-        app:layout_constraintStart_toEndOf="@+id/userButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@color/Highlight" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/LogoutButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_exit_to_app_black_24dp"
-        app:backgroundTint="@color/Accent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@color/Highlight" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/GameButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_view_headline_black_24dp"
-        app:backgroundTint="@color/Accent"
-        app:layout_constraintStart_toEndOf="@+id/MonsterButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rippleColor="@color/Highlight" />
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

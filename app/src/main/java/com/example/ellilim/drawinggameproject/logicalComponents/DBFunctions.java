@@ -6,8 +6,13 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.ellilim.drawinggameproject.activities.McaptureActivity;
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureActivity;
+import com.example.ellilim.drawinggameproject.dbObjects.Monster;
 import com.example.ellilim.drawinggameproject.dbObjects.UserAccount;
+import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterObject;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,9 +25,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -169,5 +177,36 @@ public class DBFunctions {
                 Toast.makeText(requestedActivity, "Authentication failed.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void addMonster(monsterObject monster){
+        Date currentTime = Calendar.getInstance().getTime();
+        Map<String, Object> data = new HashMap<>();
+        data.put("id",monster.monsterID);
+        data.put("name",monster.monsterName);
+        data.put("date",currentTime);
+
+        DB.collection("users").document(user.getUid()).collection("monsters").add(data);
+        requestedActivity.requestedJob(true,EnumSuccesCodes.ADDMONSTER);
+    }
+
+    public void getMonsters(){
+        CollectionReference monsterRef = DB.collection("users").document(user.getUid()).collection("monsters");
+        monsterRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        List<Monster> monsterList = new ArrayList<Monster>();
+                        monsterList.add(new Monster(
+                                document.getId(),
+                                Integer.parseInt(document.getData().get("id").toString()),
+                                document.getData().get("name").toString()
+                        ));
+                        requestedActivity.requestedMonsterList(monsterList);
+                    }
+                }
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.ellilim.drawinggameproject.R;
+import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureActivity;
 import com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions;
 import com.example.ellilim.drawinggameproject.logicalComponents.EnumSuccesCodes;
 import com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation;

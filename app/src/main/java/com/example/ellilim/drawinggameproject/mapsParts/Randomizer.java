@@ -1,18 +1,12 @@
 package com.example.ellilim.drawinggameproject.mapsParts;
 
 import android.location.Location;
-import android.util.Log;
-
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Random;
 
 public class Randomizer {
-
-    public MarkerOptions createMarkerAtLocation(Location l){
-        MarkerOptions markerOptions = new MarkerOptions();
+    public LatLng createMarkerAtLocation(Location l){
         Random rand = new Random();
 
         int firstValueLong = rand.nextInt(9);
@@ -42,12 +36,7 @@ public class Randomizer {
         }else{
             Lat = l.getLatitude() - Float.parseFloat(generateNumberLat);
         }
-        LatLng latLng = new LatLng(Lat, Long);
-        markerOptions.position(latLng);
-        markerOptions.title("test");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
-        Log.i("INFORMATION",""+ latLng);
-        return markerOptions;
+        return new LatLng(Lat, Long);
     }
 }

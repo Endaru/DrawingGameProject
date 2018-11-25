@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.ellilim.drawinggameproject.activities.McaptureActivity;
+import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureActivity;
 import com.example.ellilim.drawinggameproject.R;
 import com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions;
 import com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation;

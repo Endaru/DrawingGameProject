@@ -8,19 +8,27 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.media.Image;
 import android.os.Build;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.ellilim.drawinggameproject.R;
+import com.example.ellilim.drawinggameproject.fragments.GameResultFragment;
 import com.example.ellilim.drawinggameproject.mapsParts.MarkerObject;
+import com.example.ellilim.drawinggameproject.mapsParts.McaptureMarkerFactory;
 import com.example.ellilim.drawinggameproject.mapsParts.Randomizer;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -40,45 +48,49 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener,View.OnClickListener{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener,View.OnClickListener,GoogleMap.OnMapClickListener{
+
+    private static final int MAPS_ACTIVITY_CONTEXT = 1;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     private GoogleMap mMap;
-    LocationRequest mLocationRequest;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    FusedLocationProviderClient mFusedLocationClient;
-    List<MarkerObject> mMarkerList = new ArrayList<MarkerObject>();
-    Circle mCircle;
-    float[] mDistance = new float[2];
-    Boolean testvalue = true;
+    private LocationRequest mLocationRequest;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private McaptureMarkerFactory mMarkerFactory;
 
-    FloatingActionButton UserButton;
-    FloatingActionButton MonsterButton;
-    FloatingActionButton GameButton;
-    FloatingActionButton Logout;
+    private Circle mCircle;
+    private float[] mDistance = new float[2];
 
-    private com.example.ellilim.drawinggameproject.logicalComponents.DBFunctions DBFunctions;
+    private Boolean DebugMode = false;
+    private Boolean DebugModeRadius = false;
+    private Boolean DebugModeMarker = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //DBFunctions = new DBFunctions(this);
         setContentView(R.layout.activity_maps);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        UserButton = (FloatingActionButton) findViewById(R.id.userButton);
-        MonsterButton = (FloatingActionButton) findViewById(R.id.MonsterButton);
-        Logout = (FloatingActionButton) findViewById(R.id.LogoutButton);
-        GameButton = (FloatingActionButton) findViewById(R.id.GameButton);
+        FloatingActionButton UserButton = (FloatingActionButton) findViewById(R.id.userButton);
+        FloatingActionButton MonsterButton = (FloatingActionButton) findViewById(R.id.MonsterButton);
+        FloatingActionButton Logout = (FloatingActionButton) findViewById(R.id.LogoutButton);
+        FloatingActionButton GameButton = (FloatingActionButton) findViewById(R.id.GameButton);
+
+        Switch DebugModeButton = (Switch) findViewById(R.id.DebugMode);
+        Switch RadiusModeButton = (Switch) findViewById(R.id.RadiusMode);
+        Switch MarkerModeButton = (Switch) findViewById(R.id.MarkerMode);
 
         UserButton.setOnClickListener(this);
         MonsterButton.setOnClickListener(this);
         Logout.setOnClickListener(this);
         GameButton.setOnClickListener(this);
+
+        DebugModeButton.setOnClickListener(this);
+        RadiusModeButton.setOnClickListener(this);
+        MarkerModeButton.setOnClickListener(this);
     }
 
     @Override
@@ -89,35 +101,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLocation();
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
-
+        mMap.setOnMapClickListener(this);
+        mMap.moveCamera(CameraUpdateFactory.zoomBy(15));
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(60000); // 1 minute interval
-        mLocationRequest.setFastestInterval(60000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        float[] mDistance = new float[2];
+        mMarkerFactory = new McaptureMarkerFactory(mMap);
+        getLocation();
+    }
 
+    //Set that we want the location and when it needs to update.
+    public void getLocation(){
+        if(mMap != null){
+            mLocationRequest.setInterval(6000);
+            mLocationRequest.setFastestInterval(6000);
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+            checkPermission();
+        }
+    }
+
+    //Check if we have permission to use the GPS to get our current location? if not ask for it.
+    private void checkPermission(){
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                //Location Permission already granted
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                 mMap.setMyLocationEnabled(true);
             } else {
-                //Request Location Permission
-                checkLocationPermission();
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        new AlertDialog.Builder(this)
+                                .setTitle("Location Permission Needed")
+                                .setMessage("This app needs the Location permission, please accept to use location functionality")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        ActivityCompat.requestPermissions(MapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION );
+                                    }
+                                })
+                                .create()
+                                .show();
+                    } else {
+                        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION );
+                    }
+                }
             }
         }
         else {
@@ -129,18 +164,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                //The last location in the list is the newest
-                Location location = locationList.get(locationList.size() - 1);
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-                mLastLocation = location;
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
+            if(!DebugMode){
+                List<Location> locationList = locationResult.getLocations();
+                if (locationList.size() > 0) {
+                    Location location = locationList.get(locationList.size() - 1);
 
-                //Place current location marker
-                if(testvalue){
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     if(mCircle != null){
                         mCircle.remove();
@@ -150,81 +178,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .radius(50)
                             .strokeColor(Color.RED));
 
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                    mMarkerFactory.updateLocation(location);
+                    mMarkerFactory.perhapsCreateMarker();
+                    mMarkerFactory.checkMarkerTimers();
                 }
-
-                Randomizer random = new Randomizer();
-                MarkerOptions randomOptions = random.createMarkerAtLocation(location);
-                mMarkerList.add(new MarkerObject(mMap.addMarker(randomOptions)));
-
-                for(MarkerObject m: mMarkerList){
-                    if(m.isTimerDone()){
-                        if(mMarkerList.equals(m)){
-                            mMarkerList.remove(m);
-                        }
-                    }
-                }
-
-                //move map camera
             }
         }
     };
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
-                        .setTitle("Location Permission Needed")
-                        .setMessage("This app needs the Location permission, please accept to use location functionality")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(MapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION );
-                            }
-                        })
-                        .create()
-                        .show();
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_LOCATION );
-            }
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
                         mMap.setMyLocationEnabled(true);
                     }
-
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
@@ -237,10 +213,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return false;
         } else {
             Toast.makeText(getBaseContext(),"Inside",Toast.LENGTH_LONG).show();
+            mMarkerFactory.removeMarker(marker);
             Class gameActivity = GameActivity.class;
             Intent startGaming = new Intent(MapsActivity.this,gameActivity);
-            startActivity(startGaming);
+            startActivityForResult(startGaming,MAPS_ACTIVITY_CONTEXT);
             return true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == MAPS_ACTIVITY_CONTEXT){
+            if(resultCode == RESULT_OK){
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("gameWon",data.getBooleanExtra("gameWon",false));
+                bundle.putString("monsterName",data.getStringExtra("monsterName"));
+
+                Fragment newFragment = new GameResultFragment();
+                newFragment.setArguments(bundle);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.result_screen, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commitAllowingStateLoss();
+            }
         }
     }
 
@@ -258,8 +254,79 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 finish();
                 break;
             case R.id.GameButton:
-                startActivity(new Intent(context, GameActivity.class));
+                startActivityForResult(new Intent(context, GameActivity.class),MAPS_ACTIVITY_CONTEXT);
                 break;
+            case R.id.DebugMode:
+                setDebugMode();
+                break;
+            case R.id.MarkerMode:
+                setDebugModeMarker();
+                break;
+            case R.id.RadiusMode:
+                setDebugModeRadius();
+                break;
+        }
+    }
+
+    public void setDebugMode(){
+        Switch RadiusModeButton = (Switch) findViewById(R.id.RadiusMode);
+        Switch MarkerModeButton = (Switch) findViewById(R.id.MarkerMode);
+        if(DebugMode){
+            DebugMode = false;
+            DebugModeRadius = false;
+            DebugModeMarker = false;
+            RadiusModeButton.setChecked(DebugModeRadius);
+            RadiusModeButton.setVisibility(View.GONE);
+            MarkerModeButton.setChecked(DebugModeMarker);
+            MarkerModeButton.setVisibility(View.GONE);
+        }else{
+            DebugMode = true;
+            RadiusModeButton.setVisibility(View.VISIBLE);
+            MarkerModeButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void setDebugModeMarker(){
+        Switch RadiusModeButton = (Switch) findViewById(R.id.RadiusMode);
+        if(DebugModeMarker){
+            DebugModeMarker = false;
+        }else{
+            if(DebugModeRadius){
+                DebugModeRadius = false;
+                RadiusModeButton.setChecked(DebugModeRadius);
+            }
+            DebugModeMarker = true;
+        }
+    }
+
+    public void setDebugModeRadius() {
+        Switch MarkerModeButton = (Switch) findViewById(R.id.MarkerMode);
+        if(DebugModeRadius){
+            DebugModeRadius = false;
+        }else{
+            if(DebugModeMarker){
+                DebugModeMarker = false;
+                MarkerModeButton.setChecked(DebugModeMarker);
+            }
+            DebugModeRadius = true;
+        }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if(DebugMode){
+            if(DebugModeMarker){
+                mMarkerFactory.createMarkerAtLocation(latLng);
+            }
+            if(DebugModeRadius){
+                if(mCircle != null){
+                    mCircle.remove();
+                }
+                mCircle = mMap.addCircle(new CircleOptions()
+                        .center(latLng)
+                        .radius(50)
+                        .strokeColor(Color.RED));
+            }
         }
     }
 }
