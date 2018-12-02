@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.ellilim.drawinggameproject.activities.parentActivities.McaptureGameActivity;
+import com.example.ellilim.drawinggameproject.mCaptureExtensions.McaptureGameActivity;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CaptureLine;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.CursorPoint;
 import com.example.ellilim.drawinggameproject.drawingGame.gameComponents.monsterData.smallMonster;
@@ -24,7 +24,6 @@ public class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder mSurfaceHolder;
     private monsterObject mMonsterObject;
     private CursorPoint mCursorPoint;
-    private float mX,mY;
     private McaptureGameActivity mRequestedActivity;
     private boolean filledPath;
 
@@ -44,23 +43,18 @@ public class GameView extends SurfaceView implements Runnable {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Bitmap mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
     }
 
     public void run() {
         Canvas canvas;
         while (mRunning) {
-            // If we can obtain a valid drawing surface...
+            //Try and get a surface that is valid
             if (mSurfaceHolder.getSurface().isValid()) {
 
-                // Lock the canvas. Note that in a more complex app, with
-                // more threads, you need to put this into a try/catch block
-                // to make sure only one thread is drawing to the surface.
-                // Starting with O, you can request a hardware surface with
-                // lockHardwareCanvas().
-                // See https://developer.android.com/reference/android/view/
-                // SurfaceHolder.html#lockHardwareCanvas()
+                // Lock the canvas.
                 canvas = mSurfaceHolder.lockCanvas();
+
                 // Fill the canvas with white and draw the bitmap.
                 if(canvas != null) {
                     canvas.drawColor(Color.WHITE);
@@ -69,6 +63,7 @@ public class GameView extends SurfaceView implements Runnable {
                         canvas.drawPath(mCaptureLine, mCaptureLine.mPaint);
                     }
 
+                    //Draw the monsters
                     if(mMonsterObject != null){
                         mMonsterObject.draw(canvas);
                     }
@@ -82,6 +77,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    //Update the frames and check for conditions
     private void updateFrame(Canvas canvas) {
         if(canvas != null){
             mMonsterObject.update(canvas);

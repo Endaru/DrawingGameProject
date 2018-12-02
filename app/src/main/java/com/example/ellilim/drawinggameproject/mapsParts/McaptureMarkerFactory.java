@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+//Factory that handels marker creation
 public class McaptureMarkerFactory {
     private List<MarkerObject> mMarkerList = new ArrayList<MarkerObject>();
     private GoogleMap mMap;
@@ -34,6 +35,7 @@ public class McaptureMarkerFactory {
         }
     }
 
+    //Create marker with basic icon
     public void createMarker(){
         MarkerObject newMarkerObject = new MarkerObject();
         newMarkerObject.setmMarkerOptions(random.createMarkerAtLocation(lastKnownLocation), BitmapDescriptorFactory.defaultMarker());
@@ -41,6 +43,7 @@ public class McaptureMarkerFactory {
         mMarkerList.add(newMarkerObject);
     }
 
+    //Create marker with a set icon
     public void createMarker(BitmapDescriptor icon){
         MarkerObject newMarkerObject = new MarkerObject();
         newMarkerObject.setmMarkerOptions(random.createMarkerAtLocation(lastKnownLocation), icon);
@@ -48,13 +51,14 @@ public class McaptureMarkerFactory {
         mMarkerList.add(newMarkerObject);
     }
 
+    //Create marker at a location with basic icon
     public void createMarkerAtLocation(LatLng latLng){
         MarkerObject newMarkerObject = new MarkerObject();
         newMarkerObject.setmMarkerOptions(latLng, BitmapDescriptorFactory.defaultMarker());
         newMarkerObject.setmMarker(mMap.addMarker(newMarkerObject.mMarkerOptions));
         mMarkerList.add(newMarkerObject);
     }
-
+    //Create marker at a location with a set icon
     public void createMarkerAtLocation(LatLng latLng, BitmapDescriptor icon){
         MarkerObject newMarkerObject = new MarkerObject();
         newMarkerObject.setmMarkerOptions(latLng, icon);
@@ -62,6 +66,7 @@ public class McaptureMarkerFactory {
         mMarkerList.add(newMarkerObject);
     }
 
+    //Check the timers of the existing markers
     public void checkMarkerTimers(){
         for(MarkerObject m:mMarkerList){
             if(m.isTimerDone()){
@@ -72,6 +77,7 @@ public class McaptureMarkerFactory {
         }
     }
 
+    //Remove a marker
     public void removeMarker(Marker m){
         Iterator<MarkerObject> iterator = mMarkerList.iterator();
         while(iterator.hasNext()){

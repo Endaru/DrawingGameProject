@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/browser_actions_text_color"
-    tools:context=".activities.LoginActivity">
+    tools:context=".LoginActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/loginLayout"
@@ -60,7 +60,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText_Password" />
 
-        <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
+        <com.example.ellilim.drawinggameproject.mCaptureExtensions.EditTextWithValidation
             android:id="@+id/editText_Email"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@+id/signup"
             app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
-        <com.example.ellilim.drawinggameproject.loginForms.EditTextWithValidation
+        <com.example.ellilim.drawinggameproject.mCaptureExtensions.EditTextWithValidation
             android:id="@+id/editText_Password"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
 
     <fragment
         android:id="@+id/fragment_username_login"
-        android:name="com.example.ellilim.drawinggameproject.fragments.UsernameFragment"
+        android:name="com.example.ellilim.drawinggameproject.mCaptureFragments.UsernameFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

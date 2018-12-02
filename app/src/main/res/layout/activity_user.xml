@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_dark"
-    tools:context=".activities.UserActivity">
+    tools:context=".UserActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/userLayout"
@@ -136,7 +136,7 @@
 
     <fragment
         android:id="@+id/fragment_username_login"
-        android:name="com.example.ellilim.drawinggameproject.fragments.UsernameFragment"
+        android:name="com.example.ellilim.drawinggameproject.mCaptureFragments.UsernameFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

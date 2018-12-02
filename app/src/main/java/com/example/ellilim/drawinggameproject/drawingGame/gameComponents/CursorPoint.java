@@ -3,8 +3,8 @@ package com.example.ellilim.drawinggameproject.drawingGame.gameComponents;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
+//CursorPoint is the circle that is drawn when you draw a captureline
 public class CursorPoint {
 
     private Paint mPaint;
@@ -44,6 +44,7 @@ public class CursorPoint {
         return mHasBeenDrawn;
     }
 
+    //check if the captureline is inside of the circle so that the circle is closed
     public boolean isInsideofCircle(float xTouch, float yTouch){
         float touchRadius = (float) Math.sqrt(Math.pow(xTouch - mX, 2) + Math.pow(yTouch - mY, 2));
         return(touchRadius < mRadius);

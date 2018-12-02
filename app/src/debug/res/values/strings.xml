@@ -1,1 +1,46 @@
-<resources></resources>
+<resources>
+    <string name="app_name">MCapture</string>
+    <string name="main_activity_textview">DebugMenu</string>
+    <string name="debugitem1">Maps</string>
+    <string name="debugitem2">Game</string>
+    <string name="debugitem3">Login</string>
+    <string name="title_activity_maps">Map</string>
+
+    //LoginScreen
+    <string name="content_description_background">Background</string>
+    <string name="content_description_icon">AppIcon</string>
+    <string name="editTextEmailHint">Email</string>
+    <string name="editTextPasswordHint">Password</string>
+    <string name="button_login">Sign In</string>
+    <string name="button_signup">Create an Account</string>
+
+    //AccountCreateScreen
+    <string name="content_description_btn_back">Go Back</string>
+    <string name="editTextNickHint">Username</string>
+
+    //UserActivity
+    <string name="btn_delete_account">Delete Account</string>
+    <string name="btn_change_username">Change Username</string>
+    <string name="btn_reset_lvl">Reset Lvl</string>
+    <string name="monster_icon">monster_icon</string>
+    <string name="edit_monster">edit</string>
+    <string name="release_monster">release</string>
+    <string name="lose_game_part1">You lose,</string>
+    <string name="lose_game_part2">got away!!!</string>
+    <string name="win_game">You Win!!!</string>
+    <string name="authentication_succes">Authentication Succesfull.</string>
+    <string name="authentication_failed">Authentication failed.</string>
+    <string name="health">Health</string>
+    <string name="markers">Markers</string>
+    <string name="radius">Radius</string>
+    <string name="debugmode">DebugMode</string>
+    <string name="monsters">Monsters</string>
+    <string name="you_lost_piko_ran_away">You Lost, Piko ran away!</string>
+    <string name="exp">EXP</string>
+    <string name="monster_name">monster name</string>
+    <string name="ok">Ok</string>
+    <string name="choose_a_name">Choose a name</string>
+    <string name="background_username">background_username</string>
+    <string name="choose_a_username">Choose a username</string>
+</resources>
+

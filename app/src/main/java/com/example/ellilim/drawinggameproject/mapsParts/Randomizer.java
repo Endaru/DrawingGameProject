@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Random;
 
+//Randomizer class for where to put a random marker
 public class Randomizer {
     public LatLng createMarkerAtLocation(Location l){
         Random rand = new Random();

@@ -1,0 +1,6 @@
+package com.example.ellilim.drawinggameproject.mCaptureEnums;
+
+//Enum, need i say more
+public enum  EnumSuccesCodes {
+    FIREBASELOGIN,GOOGLELOGIN,CHECKUSERACCOUNT,FIRSTLOGIN,CREATEACCOUNT,SETLVL,SETUSERNAME,DELETEUSER,ADDMONSTER,MONSTERNICK,DELETEMONSTER
+}

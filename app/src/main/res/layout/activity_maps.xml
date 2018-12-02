@@ -5,23 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_dark"
-    tools:context=".activities.MapsActivity">
+    tools:context=".MapsActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mapsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activities.MapsActivity"
-            tools:layout_editor_absoluteX="37dp"
-            tools:layout_editor_absoluteY="0dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".MapsActivity" />
 
         <ImageView
             android:id="@+id/TopBar"
@@ -50,6 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_person_black_24dp"
             app:backgroundTint="@color/Accent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,22 +70,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_android_black_24dp"
             app:backgroundTint="@color/Accent"
             app:layout_constraintStart_toEndOf="@+id/userButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/Highlight" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/GameButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:src="@drawable/ic_view_headline_black_24dp"
-            app:backgroundTint="@color/Accent"
-            app:layout_constraintStart_toEndOf="@+id/MonsterButton"
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/Highlight" />
 
@@ -91,6 +84,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_exit_to_app_black_24dp"
             app:backgroundTint="@color/Accent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +98,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/AccentDark"
             android:switchPadding="5dp"
-            android:text="DebugMode"
+            android:text="@string/debugmode"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -115,7 +109,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/AccentDark"
             android:switchPadding="5dp"
-            android:text="Radius"
+            android:text="@string/radius"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/DebugMode" />
@@ -127,7 +121,7 @@
             android:layout_marginStart="8dp"
             android:background="@color/AccentDark"
             android:switchPadding="5dp"
-            android:text="Markers"
+            android:text="@string/markers"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/RadiusMode" />

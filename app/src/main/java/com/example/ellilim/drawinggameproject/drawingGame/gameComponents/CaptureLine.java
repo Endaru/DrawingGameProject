@@ -1,17 +1,11 @@
 package com.example.ellilim.drawinggameproject.drawingGame.gameComponents;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.Rect;
-
 import java.util.ArrayList;
 
-//TODO 1.0. : Add endpoint to start of path, when user touches it circle is complete
-//TODO 2.0. : Create a filled circle
-//TODO 3.0. : Check if another object is inside of the CaptureLine
 
 /*
 *#CaptureLine
@@ -112,7 +106,7 @@ public class CaptureLine extends Path {
         return false;
     }
 
-    //Check if a line intersects with another
+    //Check if a line intersects with another point we save while drawing
     static private Boolean lineSegmentsIntersect(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x, float p3_y) {
         float s1_x, s1_y, s2_x, s2_y;
         s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;

@@ -1,7 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ellilim.drawinggameproject">
-
-    <application>
-        <activity android:name="com.example.ellilim.drawinggameproject.activities.SignUpActivity"></activity>
-    </application>
-</manifest>

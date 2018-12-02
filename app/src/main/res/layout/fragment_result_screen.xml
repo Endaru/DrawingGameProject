@@ -57,7 +57,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="You Lost, Piko ran away!"
+        android:text="@string/you_lost_piko_ran_away"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/foreground"
         app:layout_constraintStart_toStartOf="@+id/foreground"
@@ -87,7 +87,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="EXP"
+        android:text="@string/exp"
         app:layout_constraintBottom_toTopOf="@+id/returnButton"
         app:layout_constraintEnd_toEndOf="@+id/experienceBar"
         app:layout_constraintStart_toStartOf="@+id/experienceBar" />
